@@ -1,0 +1,25 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<h2 class="mb-4">Наші номери</h2>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for room in room_types %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold">{{ room.title }}</h5>
+                    <p class="card-text text-primary fw-bold fs-5">{{ room.price }} грн/доба</p>
+                </div>
+                <div class="card-footer bg-white border-top-0 pb-3">
+                    <a href="{% url 'room_type_detail' room.pk %}" class="btn btn-outline-primary w-100">Детальніше / Забронювати</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <div class="alert alert-warning">Наразі в базі немає жодного номеру. Додайте їх через адмінку!</div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-success">
+            <div class="card-header bg-success text-white text-center py-3">
+                <h3 class="m-0">🎉 Бронювання пройшло успішно!</h3>
+            </div>
+            <div class="card-body p-4">
+                <h5 class="card-title mb-3">Деталі вашого квитка <strong>(Бронь #{{ booking.id }})</strong></h5>
+                
+                <ul class="list-group list-group-flush mb-4">
+                    <li class="list-group-item"><strong>Тип номеру:</strong> {{ booking.session.room.title }}</li>
+                    <li class="list-group-item"><strong>Дата заїзду:</strong> {{ booking.session.date }}</li>
+                    <li class="list-group-item"><strong>Час:</strong> {{ booking.session.start_time }} — {{ booking.session.check_out|date:"d.m.Y H:i"|default:booking.session.end_time }}</li>
+                    <li class="list-group-item"><strong>Статус:</strong> <span class="badge bg-primary">{{ booking.get_status_display }}</span></li>
+                    <li class="list-group-item"><strong>Сплачена сума:</strong> <span class="fw-bold text-success">{{ booking.total_price }} грн</span></li>
+                </ul>
+
+                <a href="{% url 'home' %}" class="btn btn-outline-primary w-100">Повернутися на головну</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

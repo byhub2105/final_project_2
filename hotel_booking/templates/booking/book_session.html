@@ -1,0 +1,20 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+    <h1>Бронювання номеру</h1>
+    <h3>{{ session.room_type.name }}</h3>
+    <p>
+        <strong>Заїзд:</strong> {{ session.date }} о {{ session.start_time }}<br>
+        <strong>Вільних місць:</strong> {{ session.available_spots }}
+    </p>
+
+    <form method="POST">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit" style="background-color: green; color: white; padding: 10px;">
+            Підтвердити бронювання та "Оплатити"
+        </button>
+    </form>
+{% endblock %}

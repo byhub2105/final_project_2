@@ -1,0 +1,9 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="p-5 mb-4 bg-white rounded-3 shadow-sm text-center">
+    <h1 class="display-5 fw-bold text-dark">Вітаємо у нашому готелі!</h1>
+    <p class="fs-5 text-muted col-md-8 mx-auto">Оберіть комфортний номер та забронюйте зручний час для відпочинку в кілька кліків.</p>
+    <a href="{% url 'room_type_list' %}" class="btn btn-primary btn-lg px-4">Переглянути доступні номери</a>
+</div>
+{% endblock %}

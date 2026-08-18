@@ -1,0 +1,94 @@
+{% extends 'booking/base.html' %}
+
+{% block content %}
+<div class="row g-4">
+    <!-- Блок з інформацією про користувача -->
+    <div class="col-12">
+        <div class="card shadow-sm border-0 bg-white p-2">
+            <div class="card-body">
+                <h2 class="card-title fw-bold mb-3">Привіт, {{ request.user.username }}! 👋</h2>
+                <div class="row text-muted">
+                    <div class="col-md-6 mb-2 mb-md-0">
+                        <strong>Email:</strong> {{ request.user.email|default:"Не вказано" }}
+                    </div>
+                    {% if request.user.profile.phone %}
+                        <div class="col-md-6">
+                            <strong>Телефон:</strong> {{ request.user.profile.phone }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Секція 1: Активні бронювання -->
+    <div class="col-12">
+        <h3 class="fw-bold mb-3">🟢 Мої активні бронювання</h3>
+        {% if active_bookings %}
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                {% for booking in active_bookings %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-success border-start border-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title fw-bold m-0">{{ booking.session.room.title }}</h5>
+                                    <span class="badge bg-success">Активне</span>
+                                </div>
+                                <hr class="my-2 text-muted">
+                                <p class="card-text mb-1">
+                                    <strong>Заїзд:</strong> {{ booking.session.date }} {{ booking.session.start_time }}
+                                </p>
+                                <p class="card-text mb-2">
+                                    <strong>Виїзд:</strong> {{ booking.session.check_out|date:"d.m.Y H:i"|default:"Не вказано" }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                                    <small class="text-muted">Кількість номерів: <strong>{{ booking.quantity }}</strong></small>
+                                    <span class="fw-bold text-success fs-5">{{ booking.total_price }} грн</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-light border shadow-sm">
+                У тебе поки немає активних бронювань. Час щось забронювати! 😉
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Секція 2: Минулі бронювання -->
+    <div class="col-12 mt-4">
+        <h3 class="fw-bold mb-3 text-secondary">⚪ Історія бронювань</h3>
+        {% if past_bookings %}
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                {% for booking in past_bookings %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm border-secondary border-start border-4 bg-light">
+                            <div class="card-body text-muted">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title fw-bold m-0 text-dark">{{ booking.session.room.title }}</h5>
+                                    <span class="badge bg-secondary">Використано</span>
+                                </div>
+                                <hr class="my-2">
+                                <p class="card-text mb-1">
+                                    <strong>Було заброньовано на:</strong><br>
+                                    {{ booking.session.date }} {{ booking.session.start_time }} — {{ booking.session.check_out|date:"d.m.Y H:i"|default:"не вказано" }}
+                                </p>
+                                <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                                    <small>Сума:</small>
+                                    <span class="fw-bold text-dark">{{ booking.total_price }} грн</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-light border text-muted shadow-sm">
+                Твоя історія порожня.
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
