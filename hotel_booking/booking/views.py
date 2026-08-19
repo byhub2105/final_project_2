@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login,logout
-from .models import RoomType, CheckInSession, Booking
+from .models import RoomType, CheckInSession, Booking , Score
 from .forms import BookingForm,LoginForm,RegisterForm
-
+import json
+from django.http import JsonResponse
 def home(request):
     return render(request, 'booking/home.html')
 def register_view(request):
@@ -98,3 +99,25 @@ def profile_view(request):
         'active_bookings': active_bookings,
         'past_bookings': past_bookings,
     })
+def game_view(request):
+    return render(request, 'booking/minigame.html')
+def save_score_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            player_name = data.get('player_name', 'Анонім')
+            game_name = data.get('game_name', 'Змійка')
+            score = data.get('score', 0)
+            Score.objects.create(
+                player_name=player_name,
+                game_name=game_name,
+                score=score
+            )
+            return JsonResponse({'status': 'success', 'message': 'Результат збережено!'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+            
+    return JsonResponse({'status': 'error', 'message': 'Дозволено лише POST-запити'}, status=405)
+def leaderboard_view(request):
+    top_scores = Score.objects.filter(game_name='Змійка').order_by('-score')[:10]
+    return render(request, 'booking/leaderboard.html', {'scores': top_scores})

@@ -1,0 +1,25 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Гра Змійка</title>
+    <link rel="stylesheet" href="{% static 'booking/style.css' %}">
+</head>
+<body>
+    <div class="game-container">
+        <h2>Гра "Змійка"</h2>
+        
+        <!-- Додаткове завдання: ім'я гравця -->
+        <input type="text" id="playerName" placeholder="Введіть ваше ім'я" value="Анонім">
+        <p>Рахунок: <span id="score">0</span></p>
+        
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <br>
+        <button id="startBtn">Почати гру</button>
+        <p id="message"></p>
+        {% csrf_token %}
+    </div>
+    <script src="{% static 'booking/js/script.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблиця лідерів - Змійка</title>
+    <!-- Використовуємо той самий стиль, що і для гри -->
+    <link rel="stylesheet" href="{% static 'booking/style.css' %}">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h2>Топ-10 гравців (Змійка)</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Місце</th>
+                    <th>Ім'я</th>
+                    <th>Рахунок</th>
+                    <th>Дата</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for score in scores %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ score.player_name }}</td>
+                    <td><strong>{{ score.score }}</strong></td>
+                    <td>{{ score.created_at|date:"d.m.Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">Поки що немає жодного результату. Будь першим!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <br>
+        <a href="{% url 'game' %}"><button>Повернутися до гри</button></a>
+    </div>
+</body>
+</html>

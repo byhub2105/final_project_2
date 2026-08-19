@@ -85,4 +85,14 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Бронювання #{self.id} — {self.user} {self.quantity} ({self.get_status_display()})"
+class Score(models.Model):
+    player_name = models.CharField(max_length=50, verbose_name="Ім'я гравця")
+    game_name = models.CharField(max_length=50, verbose_name="Назва гри")
+    score = models.IntegerField(verbose_name="Результат")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Час створення")
 
+    class Meta:
+        ordering = ['-score']
+
+    def __str__(self):
+        return f"{self.player_name} - {self.game_name}: {self.score}"

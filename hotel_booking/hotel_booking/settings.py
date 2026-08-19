@@ -134,41 +134,42 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL='media/'
 MEDIA_ROOT=os.path.join(BASE_DIR, 'media')
+LOGIN_URL = 'login'
 
 # ════════════════════════════════════════════════════════════
 # Додайте цей блок в КІНЕЦЬ вашого authproject/settings.py
 # ════════════════════════════════════════════════════════════
 
-import os
-import dj_database_url
+# import os
+# import dj_database_url
 
-# ── Render автоматично встановлює змінну RENDER ──
-if 'RENDER' in os.environ:
-    DEBUG = False
+# # ── Render автоматично встановлює змінну RENDER ──
+# if 'RENDER' in os.environ:
+#     DEBUG = False
 
-    RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-    if RENDER_EXTERNAL_HOSTNAME:
-        ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME]
+#     RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+#     if RENDER_EXTERNAL_HOSTNAME:
+#         ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME]
 
-    CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
+#     CSRF_TRUSTED_ORIGINS = [f'https://{RENDER_EXTERNAL_HOSTNAME}']
 
-    # База даних — Render надає DATABASE_URL автоматично
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ.get('DATABASE_URL'),
-            conn_max_age=600,
-        )
-    }
+#     # База даних — Render надає DATABASE_URL автоматично
+#     DATABASES = {
+#         'default': dj_database_url.config(
+#             default=os.environ.get('DATABASE_URL'),
+#             conn_max_age=600,
+#         )
+#     }
 
-    # Whitenoise — роздає CSS/JS/картинки без окремого сервера
-    MIDDLEWARE.insert(
-        MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-    )
+#     # Whitenoise — роздає CSS/JS/картинки без окремого сервера
+#     MIDDLEWARE.insert(
+#         MIDDLEWARE.index('django.middleware.security.SecurityMiddleware') + 1,
+#         'whitenoise.middleware.WhiteNoiseMiddleware',
+#     )
 
-    STATIC_ROOT = BASE_DIR / 'staticfiles'
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#     STATIC_ROOT = BASE_DIR / 'staticfiles'
+#     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-    # Медіафайли (фото профілю, фото/відео в чаті)
-    MEDIA_ROOT = BASE_DIR / 'media'
-    MEDIA_URL = '/media/'
+#     # Медіафайли (фото профілю, фото/відео в чаті)
+#     MEDIA_ROOT = BASE_DIR / 'media'
+#     MEDIA_URL = '/media/'
